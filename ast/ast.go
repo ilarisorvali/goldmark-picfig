@@ -9,51 +9,51 @@ import (
 )
 
 // KindFigure is a NodeKind of the Figure node.
-var KindFigure = gast.NewNodeKind("Figure")
+var KindFigure = gast.NewNodeKind("PictureFigure")
 
 // A Figure struct represents a table of Markdown(GFM) text.
-type FigurePicture struct {
+type PictureFigure struct {
 	gast.BaseBlock
 }
 
 // Kind implements Node.Kind.
-func (n *FigurePicture) Kind() gast.NodeKind {
+func (n *PictureFigure) Kind() gast.NodeKind {
 	return KindFigure
 }
 
 // Dump implements Node.Dump
-func (n *FigurePicture) Dump(source []byte, level int) {
+func (n *PictureFigure) Dump(source []byte, level int) {
 	gast.DumpHelper(n, source, level, nil, func(level int) {
 	})
 }
 
 // NewFigure returns a new Table node.
-func NewFigure() *FigurePicture {
-	return &FigurePicture{}
+func NewFigure() *PictureFigure {
+	return &PictureFigure{}
 }
 
 // KindFigureImage is a NodeKind of the FigureImage node.
 var KindFigureImage = gast.NewNodeKind("FigureImage")
 
 // A FigureImage struct represents a table of Markdown(GFM) text.
-type FigureImage struct {
+type Picture struct {
 	gast.BaseBlock
 }
 
 // Kind implements Node.Kind.
-func (n *FigureImage) Kind() gast.NodeKind {
+func (n *Picture) Kind() gast.NodeKind {
 	return KindFigureImage
 }
 
 // Dump implements Node.Dump
-func (n *FigureImage) Dump(source []byte, level int) {
+func (n *Picture) Dump(source []byte, level int) {
 	gast.DumpHelper(n, source, level, nil, func(level int) {
 	})
 }
 
-// NewFigurePicture returns a new FigurePicture node.
-func NewFigureImage() *FigureImage {
-	return &FigureImage{}
+// NewPictureFigure returns a new PictureFigure node.
+func NewFigureImage() *Picture {
+	return &Picture{}
 }
 
 // KindFigureCaption is a NodeKind of the FigureCaption node.
@@ -81,24 +81,24 @@ func NewFigureCaption() *FigureCaption {
 }
 
 // FigureHTMLRenderer is a renderer.NodeRenderer implementation that
-// renders FigurePicture nodes.
-type FigurePictureHTMLRenderer struct {
+// renders PictureFigure nodes.
+type PictureFigureHTMLRenderer struct {
 	renderImageLink bool
 }
 
 // NewFigureHTMLRenderer returns a new FigureHTMLRenderer.
-func NewFigurePictureHTMLRenderer(renderImageLink bool) renderer.NodeRenderer {
-	return &FigurePictureHTMLRenderer{renderImageLink: renderImageLink}
+func NewPictureFigureHTMLRenderer(renderImageLink bool) renderer.NodeRenderer {
+	return &PictureFigureHTMLRenderer{renderImageLink: renderImageLink}
 }
 
 // RegisterFuncs implements renderer.NodeRenderer.RegisterFuncs.
-func (r *FigurePictureHTMLRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
+func (r *PictureFigureHTMLRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
 	reg.Register(KindFigure, r.renderFigure)
-	reg.Register(KindFigureImage, r.renderFigureImage)
+	reg.Register(KindFigureImage, r.renderPictureFigure)
 	reg.Register(KindFigureCaption, r.renderFigureCaption)
 }
 
-func (r *FigurePictureHTMLRenderer) renderFigure(w util.BufWriter, source []byte, n gast.Node, entering bool) (gast.WalkStatus, error) {
+func (r *PictureFigureHTMLRenderer) renderFigure(w util.BufWriter, source []byte, n gast.Node, entering bool) (gast.WalkStatus, error) {
 	if entering {
 		_, _ = w.WriteString("<figure>\n")
 	} else {
@@ -107,7 +107,7 @@ func (r *FigurePictureHTMLRenderer) renderFigure(w util.BufWriter, source []byte
 	return gast.WalkContinue, nil
 }
 
-func (r *FigurePictureHTMLRenderer) renderFigureImage(w util.BufWriter, source []byte, n gast.Node, entering bool) (gast.WalkStatus, error) {
+func (r *PictureFigureHTMLRenderer) renderPictureFigure(w util.BufWriter, source []byte, n gast.Node, entering bool) (gast.WalkStatus, error) {
 	if r.renderImageLink {
 		if image, ok := n.FirstChild().(*gast.Image); ok {
 			if entering {
@@ -120,7 +120,7 @@ func (r *FigurePictureHTMLRenderer) renderFigureImage(w util.BufWriter, source [
 	return gast.WalkContinue, nil
 }
 
-func (r *FigurePictureHTMLRenderer) renderFigureCaption(w util.BufWriter, source []byte, n gast.Node, entering bool) (gast.WalkStatus, error) {
+func (r *PictureFigureHTMLRenderer) renderFigureCaption(w util.BufWriter, source []byte, n gast.Node, entering bool) (gast.WalkStatus, error) {
 	if entering {
 		_, _ = w.WriteString("<figcaption><p>")
 	} else {
