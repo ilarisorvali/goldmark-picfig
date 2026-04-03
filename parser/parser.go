@@ -14,17 +14,17 @@ import (
 // See CommonMark spec: https://spec.commonmark.org/0.30/#images.
 var imageRegexp = regexp.MustCompile(`^!\[[^[\]]*\](\([^()]*\)|\[[^[\]]*\])\s*$`)
 
-type figureParagraphTransformer struct {
+type figurePictureParagraphTransformer struct {
 	skipNoCaption bool
 }
 
 // NewFigureParagraphTransformer returns a new ParagraphTransformer
 // that can transform paragraphs into figures.
 func NewFigureParagraphTransformer(skipNoCaption bool) parser.ParagraphTransformer {
-	return &figureParagraphTransformer{skipNoCaption: skipNoCaption}
+	return &figurePictureParagraphTransformer{skipNoCaption: skipNoCaption}
 }
 
-func (t *figureParagraphTransformer) Transform(node *gast.Paragraph, reader text.Reader, pc parser.Context) {
+func (t *figurePictureParagraphTransformer) Transform(node *gast.Paragraph, reader text.Reader, pc parser.Context) {
 	lines := node.Lines()
 	if lines.Len() < 1 {
 		return
@@ -40,10 +40,10 @@ func (t *figureParagraphTransformer) Transform(node *gast.Paragraph, reader text
 		return
 	}
 
-	figure := fast.NewFigure()
+	figure := past.NewFigure()
 	node.Parent().ReplaceChild(node.Parent(), node, figure)
 
-	figureImage := fast.NewFigureImage()
+	figureImage := past.NewFigureImage()
 	figureImage.Lines().Append(lines.At(0))
 	figure.AppendChild(figure, figureImage)
 
@@ -53,7 +53,7 @@ func (t *figureParagraphTransformer) Transform(node *gast.Paragraph, reader text
 		var currentLineStr = currentSeg.Value(source)
 		if imageRegexp.Match(currentLineStr) {
 			// Continued images.
-			figureImage := fast.NewFigureImage()
+			figureImage := past.NewFigureImage()
 			figureImage.Lines().Append(lines.At(currentLine))
 			figure.AppendChild(figure, figureImage)
 			currentLine += 1
@@ -63,7 +63,7 @@ func (t *figureParagraphTransformer) Transform(node *gast.Paragraph, reader text
 	}
 
 	if currentLine < lines.Len() {
-		figureCaption := fast.NewFigureCaption()
+		figureCaption := past.NewFigureCaption()
 		for i := currentLine; i < lines.Len(); i++ {
 			seg := lines.At(i)
 			if i == lines.Len()-1 {
@@ -83,7 +83,7 @@ type figureASTTransformer struct {
 
 var defaultFigureASTTransformer = &figureASTTransformer{}
 
-// NewFigureASTTransformer returns a parser.ASTTransformer for tables.
+// NewFigureASTTransformer returns a parser.ASTTransformer for images.
 func NewFigureASTTransformer() parser.ASTTransformer {
 	return defaultFigureASTTransformer
 }
