@@ -1,6 +1,2 @@
-github.com/ilarisorvali/goldmark-figure v0.0.0-20260330203753-8b5db0d3c987 h1:fcvU6aaW5FqMShPn8Y6wZQ2tP4luN/qzK9lhx8NMk/A=
-github.com/ilarisorvali/goldmark-figure v0.0.0-20260330203753-8b5db0d3c987/go.mod h1:IG2Hgi/FADDM9/P84TsmJM0/CSZ3QXHfemWZDs6plC4=
-github.com/mangoumbrella/goldmark-figure v1.4.0 h1:2N0Gg1YPKjwuPSVsznA+A34iYGm6qQwQeZI8pa3XY+0=
-github.com/mangoumbrella/goldmark-figure v1.4.0/go.mod h1:iIL+fhdmCQDpE0l/TKtGhokWzIbo5lo/Y2OIAcx6usI=
 github.com/yuin/goldmark v1.8.2 h1:kEGpgqJXdgbkhcOgBxkC0X0PmoPG1ZyoZ117rDVp4zE=
 github.com/yuin/goldmark v1.8.2/go.mod h1:ip/1k0VRfGynBgxOz0yCqHrbZXhcjxyuS66Brc7iBKg=

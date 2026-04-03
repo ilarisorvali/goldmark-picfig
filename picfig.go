@@ -5,7 +5,7 @@ import (
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
 
-	"github.com/mangoumbrella/goldmark-figure/ast"
+	"github.com/ilarisorvali/goldmark-picfig/ast"
 )
 
 type extension struct{}
